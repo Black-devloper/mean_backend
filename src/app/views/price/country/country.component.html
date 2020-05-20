@@ -1,0 +1,123 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+</head>
+<body>
+  <h1 style="margin-top: -15px;" class="text-dark">Task1 - Add Country</h1>
+  <div class="row">
+    <div class="col-md-8">
+      <input placeholder="Search Country" [(ngModel)]="search" type="text" class="form-control" >
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-info" type="button" data-target="#myModal" data-toggle="modal" (click)="addCountry()">Add
+        Country</button>
+    </div>
+  </div>
+  <form [formGroup]="f">
+    <div class="container">
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5><strong>Select The Country</strong></h5>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="margin: 50px;">
+              <div class="row">
+                <div>
+                <label>CountryName:</label>
+              </div>
+                <div>
+                  <select formControlName="name" (change)="onSelectCountry($event)"  class="form-control">
+                    <option *ngFor="let Country of countries"  [value]="Country.name">{{Country.name}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <label>CuurencySign:</label>
+                <input formControlName="currencySymbol" class="form-control">
+              </div>
+              <div class="row">
+                <label>currencyFlag:</label>
+                <input formControlName="flag" class="form-control">
+              </div>
+              <div class="row">
+                <label>countryPhoneCode:</label>
+                <input formControlName="numericCode" class="form-control">
+              </div>
+              <div class="row">
+                <label>currencyCode:</label>
+                <input formControlName="currencyCode" class="form-control">
+              </div>
+              <div class="row">
+                <label>Lat:</label>
+                <input formControlName="lat" class="form-control">
+              </div>
+              <div class="row">
+                <label>Lng:</label>
+                <input formControlName="lng" class="form-control">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-info" data-dismiss="modal"
+                (click)="onUpdateEmployee(coun._id)">Update</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-success" data-dismiss="modal" (click)="onAddEmployee()">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+  <br>
+  <div class="row cardbox">
+    <div class="card-group col-md-3" *ngFor="let coun of coun  | filter : search">
+      <div class="card" style="margin-top: 20px;margin-bottom: 20px;">
+        <img src={{coun.flag}}  alt="flag">
+        <div class="row cards">
+          <div class="row cards">
+            <div class="card-text col-md-7 left">CountryName:</div>
+            <div class="card-text col-md-5 right">{{coun.name}}</div>
+          </div>
+        </div>
+        <div class="row cards">
+          <div class="card-text col-md-7 left">CurrencySign</div>
+          <div class="card-text col-md-5 right">{{coun.currencySymbol}}</div>
+        </div>
+        <div class="row cards">
+          <div class="card-text col-md-7">Country PhoneCode</div>
+          <div class="card-text col-md-5">{{coun.numericCode}}</div>
+        </div>
+        <div class="row cards">
+          <div class="card-text col-md-7">Currency Code</div>
+          <div class="card-text col-md-5">{{coun.currencyCode}}</div>
+        </div>
+        <div class="row cards">
+          <div class="card-text col-md-7">Lat</div>
+          <div class="card-text col-md-5">{{coun.lat}}</div>
+        </div>
+        <div class="row cards">
+          <div class="card-text col-md-7">Lng</div>
+          <div class="card-text col-md-5">{{coun.lng}}</div>
+        </div>
+        <div class="row">
+          <div>
+            <button class="btn btn-info up-del" data-target="#myModal" data-toggle="modal" (click)="update(coun)">Update</button>
+          </div>
+          <div>
+            <button class="btn btn-danger up-del"  (click)="delete(coun._id)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

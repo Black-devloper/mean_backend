@@ -1,0 +1,38 @@
+<html>
+
+<head></head>
+
+<body>
+  <h1>Task 5 - MULTIPLE ZONE</h1>
+  <br>
+  <div class="col-md-6">
+    <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Enter Drop Location"
+      autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
+    <br>
+    <span class="success" *ngIf="found === 'true'">yay!! Entered location belongs to <h6>{{Zonename}}</h6></span>
+    <span class="error" *ngIf="found === 'false'">sorry!! Entered locstion does not belongs any Zone!!</span>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+
+      <agm-map [latitude]="lat" [longitude]="lng" (mapReady)="onMapReady($event)">
+        <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
+      </agm-map>
+    </div>
+    <div class="col-md-3">
+      <!-- <div class="square"></div> -->
+      <div class="row" *ngFor="let mzone of multipleData" style="margin-top: 10px;">
+        <div>
+          <div  [ngStyle]="{'background-color':mzone.color}" class="square"></div>
+        </div>
+        <div style="margin-left: 5px;">
+          <h5>{{mzone.name | uppercase}} |  {{mzone.color}}</h5>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>

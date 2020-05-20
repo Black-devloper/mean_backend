@@ -1,0 +1,11 @@
+[
+  {
+    "name":"admin/city",
+    "cache":{},
+    "controller_path":"./admin_controllers/admin",
+    "auth":false
+  },
+  {
+    
+  }
+]

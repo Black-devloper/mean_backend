@@ -1,0 +1,108 @@
+<html>
+
+<head></head>
+
+<body>
+  <div class="container">
+    <h1>Task-9 - Vehicle Type Pricing</h1>
+    <form [formGroup]="f">
+      <div class="row">
+        <div class="col-md-3">
+          <label><strong> Country :</strong> </label>
+        </div>
+        <div class="col-md-6">
+          <select formControlName="country" class="form-control">
+            <option *ngFor="let Country of cntName" [value]="Country.name">{{Country.name | uppercase}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="row top">
+        <div class="col-md-3">
+          <label ><strong> City :</strong> </label>
+        </div>
+        <div class="col-md-6">
+          <input class="form-control" formControlName="city">
+        </div>
+      </div>
+      <div class="row top">
+        <div class="col-md-3">
+          <label><strong>Type :</strong> </label>
+        </div>
+        <div class="col-md-6">
+          <select formControlName="type" class="form-control">
+            <option *ngFor="let driver of driverName" [value]="driver.carName">{{ driver.carName | uppercase }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="row top">
+        <div class="col-md-3">
+        <label><strong>Max Space :</strong> </label>
+      </div>
+      <div class="col-md-6">
+        <input class="form-control" formControlName="maxspace">
+      </div>
+      </div>
+      <div class="row top">
+        <div class="col-md-3">
+        <label><strong>Provider Profit : </strong></label>
+      </div>
+      <div class="col-md-6">
+        <input class="form-control" formControlName="providerprofit">
+      </div>
+      </div>
+      <div class="row top">
+        <div class="col-md-3">
+        <label><strong>Min Fare : </strong></label>
+      </div>
+      <div class="col-md-6">
+        <input class="form-control" formControlName="minfare">
+      </div>
+      </div>
+      <div class="row top">
+        <div class="col-md-3">
+          <label><strong>Distance for Base Price :</strong> </label>
+        </div>
+        <div class="col-md-6">
+          <select formControlName="distanceforbaseprice" class="form-control">
+            <option >1</option>
+            <option >2</option>
+            <option >3</option>
+            <option >4</option>
+          </select>
+        </div>
+        <!-- <label class="col-md-3">Distance for base price : </label>
+        <input class="col-md-4  form-control" formControlName="distanceforbaseprice"> -->
+      </div>
+      <div class="row top">
+        <div class="col-md-3">
+        <label><strong> Base Price : </strong></label>
+      </div>
+      <div class="col-md-6">
+        <input class="form-control" formControlName="baseprice">
+      </div>
+      </div>
+      <div class="row top">
+        <div class="col-md-3">
+        <label><strong>Price Per unit distance : </strong></label>
+      </div>
+      <div class="col-md-6">
+        <input class="form-control" formControlName="priceperunitdistance">
+      </div>
+      </div>
+      <div class="row top">
+        <div class="col-md-3">
+        <label > <strong> Price Per unit time(min) :</strong> </label>
+      </div>
+      <div class="col-md-6">
+        <input class="form-control" formControlName="priceperunittime">
+      </div>
+      </div>
+      <div class="row">
+        <button  style="margin-left: 250px;width: 200px;" class="btn btn-success" (click)="onAddEmployee()">Save</button>
+        <button style="width: 200px;" class="btn btn-danger">Cancel</button>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

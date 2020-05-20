@@ -1,0 +1,91 @@
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div>
+      <h1>TASK-7 - Create User</h1>
+      <br>
+    </div>
+    <form [formGroup]="f">
+      <div class="row">
+        <div class="col-md-2">
+          <img class="rounded-circle z-depth-2 border border-secondary" alt="100x100" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg"
+          data-holder-rendered="true">
+        </div>
+        <div class="col-md-2" style="margin-top: 30px;">
+          <select formControlName="cname" class="form-control">
+            <option value="select country" selected>select Country</option>
+            <option *ngFor="let Country of cntName" [value]="Country.name">{{Country.name}}</option>
+          </select>
+        </div>
+        <div class="col-md-2" style="margin-top: 30px;">
+          <input type="text" formControlName="name" class="form-control" placeholder="Enter Name" required>
+        </div>
+        <div class="col-md-2" style="margin-top: 30px;">
+          <input type="text" formControlName="email" class="form-control validationEmail"
+            placeholder="Enter valid email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required>
+        </div>
+        <div class="col-md-2" style="margin-top: 30px;">
+          <input type="text" formControlName="mobile" class="form-control" placeholder="Enter must 10digit mobile"
+            maxlength="10" pattern="[7-9]{1}[0-9]{9}" minlength="10" required>
+        </div>
+        <div class="col-md-2" style="margin-top: 30px;">
+          <button class="btn btn-info btn-1" *ngIf="!editMode"  (click)="onAddEmployee()">Add User</button>
+          <button class="btn btn-info btn-1" [disabled]=!f.valid *ngIf="editMode"
+            (click)="onUpdateEmployee()">update</button>
+        </div>
+      </div>
+    </form>
+    <br>
+    <br>
+    <div class="row">
+      <div class="col-md-6">
+        <input type="text" class="form-control" [(ngModel)]="search" placeholder="Search via email,name or phonenumber">
+      </div>
+      <!-- <div class="col-md-1">
+        <button (click)="onSearch()" class="btn btn-success">Search</button>
+      </div> -->
+      <!-- <div class="col-md-1">
+        <button (click)="onCancel()" class="btn btn-danger">Cancel</button>
+      </div> -->
+      <br>
+      <br>
+      <br>
+      <br>
+      <table class="table table-striped" id="empTable">
+        <thead>
+          <tr>
+            <th (click)="sortingName(0)"> Name</th>
+            <th (click)="sortingName(1)">Email</th>
+            <th (click)="sortingName(2)">Phone</th>
+            <th (click)="sortingName(2)">Country</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emp of emp | user : search | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+            <td>{{ emp.name | uppercase }}</td>
+            <td>{{ emp.email | lowercase }}</td>
+            <td>{{ emp.mobile }}</td>
+            <td>{{ emp.cname | uppercase}}</td>
+            <td><div class="dropdown">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Action button
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item"><button class="btn btn-primary btn-1 dr" (click)="Update(emp)">Update</button></a>
+                <a class="dropdown-item"> <button class="btn btn-danger btn-1 dr" (click)=" onDeleteEmployee(emp._id)">Delete</button></a>
+              </div>
+            </div></td>
+          </tr>
+        </tbody>
+      </table>
+      <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="emp.length"></ngb-pagination>
+    </div>
+    <br>
+    <br>
+  </div>
+</body>

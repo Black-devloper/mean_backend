@@ -1,0 +1,45 @@
+<html>
+
+<head>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=geometry"></script>
+</head>
+
+<body>
+  <h1>Task-3 - Estimate Time And Distance</h1>
+  <br>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()"
+          placeholder="Enter Pickup Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text"
+          #search>
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()"
+          placeholder="Enter Drop Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text"
+          #searchN>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="row spec col-md-12">
+        <div class="row col-md-3">
+          <label>Estimated distance: </label>
+          <h6 style="margin-left: 10px;margin-top: 5px;"> {{ maindistance }} + km</h6>
+        </div>
+        <div class="row spec col-md-3">
+          <label>Estimated time: </label>
+          <h6 style="margin-left: 10px;margin-top: 5px;">{{ this.speed }} + km/s</h6>
+        </div>
+      </div>
+    </div>
+
+    <agm-map [latitude]="lat" [longitude]="lng">
+      <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
+      <agm-direction [origin]="origin" [destination]="destination">
+      </agm-direction>
+    </agm-map>
+  </div>
+</body>
+
+</html>

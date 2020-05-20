@@ -1,0 +1,153 @@
+<html>
+
+<head></head>
+
+<body>
+  <form [formGroup]="f">
+    <div class="row">
+      <div class="col-md-2">
+        <select formControlName="cname" class="form-control">
+          <option *ngFor="let Country of priceData" [value]="Country.cname">{{Country.cname | uppercase}}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select formControlName="historyStatus" class="form-control">
+          <option id="1" value="Accepted">Accepted</option>
+          <option id="2" value="Rejected">Rejected</option>
+          <!-- <option *ngFor="let Country of priceData" [value]="Country.historyStatus">{{Country.historyStatus | uppercase}}</option> -->
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select formControlName="servise" class="form-control">
+          <option *ngFor="let Country of driverName" [value]="Country.carName">{{Country.carName | uppercase}}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select formControlName="select" formControlName="searchOption" class="form-control">
+          <option>Search By</option>
+          <option id="1" value="User">User</option>
+          <option id="2">Pickup Addresh</option>
+          <option id="3">Drop Addresh</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Search by" formControlName="search">
+      </div>
+      <div class="col-md-1">
+        <button (click)="onSearch()" class="btn btn-success">Search</button>
+      </div>
+      <div class="col-md-1">
+        <button (click)="onCancel()" class="btn btn-danger">Cancel</button>
+      </div>
+    </div>
+    <br>
+  <div class="row">
+    <div class="col-md-3">
+      <input [owlDateTime]="dt4" formControlName="cdate" class="form-control" placeholder="Creation Date"
+      [owlDateTimeTrigger]="dt4" date='toLocatlString()'>
+    <span [owlDateTimeTrigger]="dt4"></span>
+    <owl-date-time #dt4></owl-date-time>
+    </div>
+    <div class="col-md-3">
+      <input [owlDateTime]="dt3" formControlName="datetime" class="form-control" placeholder="Date Time"
+          [owlDateTimeTrigger]="dt3" date='toLocatlString()'>
+        <span [owlDateTimeTrigger]="dt3"></span>
+        <owl-date-time #dt3></owl-date-time>
+    </div>
+    <label  margm><strong>Amount - </strong></label>
+    <input class="col-md-1 form-control" style="margin-right: 1%;" placeholder="from">
+    <input class="col-md-1 form-control" placeholder="to">
+  </div>
+  <div class="row" style="margin-top: 1%;">
+    <div class="col-md-8">
+      <table class="table table-stripped">
+        <thead>
+          <th>User</th>
+          <th>Driver</th>
+          <th>Country</th>
+          <th>City</th>
+          <th>Creation at</th>
+          <th>Vehicle</th>
+          <th>status</th>
+        </thead>
+
+        <tbody *ngFor="let item of priceData | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize ">
+          <tr class="tdmy">
+            <td (click)="onGet(item)">{{item.name | uppercase}}</td>
+            <td (click)="onGet(item)"></td>
+            <td (click)="onGet(item)">{{item.cname | uppercase}}</td>
+            <td (click)="onGet(item)">{{item.pickup | uppercase}}</td>
+            <td (click)="onGet(item)">{{item.cDate.split('T')[0] }}</td>
+            <td (click)="onGet(item)">{{item.service | uppercase}}</td>
+            <td (click)="onGet(item)"><button class="button button4"   [ngStyle]="{'background-color':item.historyStatus === 'Accepted'? 'green' : 'red'}">{{item.historyStatus | uppercase}}</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <ngb-pagination class="pull-left" [(page)]="page" [pageSize]="pageSize" [collectionSize]="priceData.length">
+      </ngb-pagination>
+    </div>
+    <div class="col-md-4 card" style="margin-top: 20px;" *ngIf="show">
+      <div class="card small">
+        <div class="row">
+          <label class="marg"><strong>Payment : </strong></label>
+          <p>{{  userData.payment}}</p>
+        </div>
+        <div class="row">
+          <label class="marg"><strong>Creation Time : </strong></label>
+          <p>{{  userData.payment}}</p>
+        </div>
+        <div class="row">
+          <label class="marg"><strong>Pickup Time : </strong></label>
+          <p>{{  userData.datetime}}</p>
+        </div>
+      </div>
+      <div>
+        <label><strong>Location</strong></label>
+      </div>
+      <div>
+        <div class="row">
+          <div>
+            <img src="../../assets/dot.png" class="image" style="height: 20px;">
+          </div>
+          <div class="card" style="width: 80%;margin-left: 3%;height: 50%;">
+            {{userData.pickup}}
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <img src="../../assets/dot.png" class="image" style="height: 20px;">
+          </div>
+          <div class="card" style="width: 80%;margin-left: 3%;">
+            {{userData.drop}}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <img src="../../../../assets/photo_my.jpg" class="imagemy" style="border-radius: 50%;">
+        </div>
+        <div style="margin-left: 3%;">
+          <label><strong>Passenger Details</strong></label>
+          <p>{{userData.name}}</p>
+          <p style="margin-top: -15px;">{{userData.mobile}}</p>
+          <p style="margin-top: -15px;">{{userData.email}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <img src="../../../../assets/photo_my.jpg" class="imagemy" style="border-radius: 50%;">
+        </div>
+        <div style="margin-left: 3%;">
+          <label><strong>Driver Details</strong></label>
+          <p>{{userData.name}}</p>
+          <p style="margin-top: -15px;">{{userData.mobile}}</p>
+          <p style="margin-top: -15px;">{{userData.email}}</p>
+        </div>
+      </div>
+      <button class="btn btn-info">View Trip</button>
+    </div>
+  </div>
+  </form>
+</body>
+
+</html>

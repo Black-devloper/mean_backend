@@ -1,0 +1,19 @@
+<html>
+  <head></head>
+  <body>
+    <h1>Task-4 - Zone </h1>
+    <br>
+    <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()"
+          placeholder="Enter Pickup Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text"
+          #search>
+    <span class="success" *ngIf="found=='true'">yes!! Entered Location belonges to your draw  zone!!</span>
+    <br>
+    <span class="error" *ngIf="found=='false'">Sorry!! Entered Location not belongs to your draw zone!!</span>
+
+    <agm-map style="margin-bottom: 10px;" [latitude]="lat" [longitude]="lng" (mapReady)="onMapReady($event)" >
+      <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true"
+      ></agm-marker>
+    </agm-map>
+
+  </body>
+</html>

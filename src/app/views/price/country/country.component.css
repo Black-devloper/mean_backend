@@ -1,0 +1,18 @@
+img{
+  width:100%;
+  height: 50%;
+  padding: 10%;
+  margin-left: 5px;
+}
+
+.cards{
+  margin-left: 1%;
+  height:100%;
+  width: 100%;
+  padding: -200px;
+}
+.up-del
+{
+  width: 100px;
+  margin: 18px;
+}

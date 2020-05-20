@@ -1,0 +1,12 @@
+
+img{
+  width:100%;
+  height: 80px;
+  padding: 10%;
+  margin-left: 5px;
+}
+.add-button
+{
+  height: 70px;
+  border-radius: 5%;
+}

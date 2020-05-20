@@ -1,0 +1,51 @@
+.rowbtn
+{
+  margin: 10px;
+}
+
+.image{
+  height: 15px;
+}
+
+.imagemy{
+  height: 60px;
+}
+.large
+{
+  width: 200px;
+}
+.card
+{
+  background-color:	#DCDCDC;
+}
+.small-img
+{
+  width: 50px;
+  border-radius: 50%;
+}
+.part
+{
+  width: 80px;
+}
+.vl
+{
+  border-left:6px solid black;
+  height: 50px;
+  margin-left: 5px;
+}
+modal{
+  width: 300px;
+  height: 50px;
+}
+.tdmy:hover {
+  /* background-color: skyblue; */
+  color:blue;
+}
+.card{
+  padding: 2%;
+}
+
+
+
+
+

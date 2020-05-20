@@ -1,0 +1,251 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <form [formGroup]="f">
+
+    <h1>Task-12 Show Created Trip Request</h1>
+    <div class="row">
+
+      <div class="col-md-2">
+        <input [owlDateTime]="dt4" formControlName="cdate" class="form-control" placeholder="Creation Date"
+          [owlDateTimeTrigger]="dt4" date='toLocatlString()'>
+        <span [owlDateTimeTrigger]="dt4"></span>
+        <owl-date-time #dt4></owl-date-time>
+      </div>
+      <div class="col-md-2">
+        <input [owlDateTime]="dt3" formControlName="datetime" class="form-control" placeholder="Date Time"
+          [owlDateTimeTrigger]="dt3" date='toLocatlString()'>
+        <span [owlDateTimeTrigger]="dt3"></span>
+        <owl-date-time #dt3></owl-date-time>
+      </div>
+      <div class="col-md-2">
+        <select formControlName="servise" class="form-control">
+          <option *ngFor="let Country of driverName" [value]="Country.carName">{{Country.carName | uppercase}}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select formControlName="select" formControlName="searchOption" class="form-control">
+          <option>Search By</option>
+          <option id="1" value="User">User</option>
+          <option id="2">Pickup Addresh</option>
+          <option id="3">Drop Addresh</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Search by" formControlName="search">
+      </div>
+      <div class="col-md-1">
+        <button (click)="onSearch()" class="btn btn-success">Search</button>
+      </div>
+      <div class="col-md-1">
+        <button (click)="onCancel()" class="btn btn-danger">Cancel</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-8">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Pickup Time</th>
+              <th>Vehicle</th>
+              <th>User</th>
+              <th>PickupAddresh</th>
+              <th>DropAddresh</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let item of priceData  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize ">
+            <tr class="tdmy">
+              <td (click)="onGet(item)">{{item.datetime.split('T')[0] | uppercase }}</td>
+              <td (click)="onGet(item)">{{item.service | uppercase}}</td>
+              <td (click)="onGet(item)">{{item.name | uppercase}}</td>
+              <td (click)="onGet(item)">{{item.pickup | uppercase}}</td>
+              <td (click)="onGet(item)">{{item.drop | uppercase}}</td>
+              <td data-toggle="modal" data-target="#myModal"><button class="btn btn-info" style="margin: 5px;"
+              [ngStyle]="{'background-color':item.assign === 'Reassign'? 'blue' : 'blue'}"
+              class="approvedbtn btn btn-success" (click)="onAssign(item)">{{item.assign}}</button></td>
+              <td><button class="btn btn-danger" (click)="onDelete(item._id)">X</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <ngb-pagination class="pull-left" [(page)]="page" [pageSize]="pageSize" [collectionSize]="priceData.length">
+        </ngb-pagination>
+      </div>
+      <br>
+   <div class="col-md-4 card" style="margin-top: 20px;" *ngIf="show">
+        <div class="row">
+          <div class="row col-md-4"><img src="../../assets/wallet.png" class="image">
+            <p style="margin: 3%;">{{userData.price}}</p>
+          </div>
+          <div class="row col-md-4"><img src="../../assets/watch.svg" class="image">
+            <p style="margin: 3%;">{{userData.dtime}}</p>
+          </div>
+          <div class="row col-md-4"><img src="../../assets/wallet.png" class="image">
+            <p style="margin: 3%;">{{userData.maindistance}}</p>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <label>Creation-date</label>
+          <p style="margin-left: 10px;">{{userData.datetime}}</p>
+        </div>
+        <div>
+          <label>Location</label>
+        </div>
+        <div>
+          <div class="row">
+            <div>
+              <img src="../../assets/dot.png" class="image" style="height: 20px;">
+            </div>
+            <div class="card" style="width: 80%;margin-left: 3%;height: 50%;">
+              {{userData.pickup}}
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <img src="../../assets/dot.png" class="image" style="height: 20px;">
+            </div>
+            <div class="card" style="width: 80%;margin-left: 3%;">
+              {{userData.drop}}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <img src="../../../../assets/photo_my.jpg" class="imagemy" style="border-radius: 50%;">
+          </div>
+          <div style="margin-left: 3%;">
+            <label>Passenger Details</label>
+             <p>{{userData.name}}</p>
+             <p style="margin-top: -15px;">{{userData.email}}</p>
+             <p style="margin-top: -15px;">{{userData.mobile}}</p>
+          </div>
+        </div>
+        <button class="btn btn-info">View Trip</button>
+      </div>
+    </div>
+
+
+    <div class="container">
+      <!-- The Modal -->
+      <div class="modal fade" id="myModal" style="height: 90%;">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" style="text-align: center;"><strong>Assign driver to Ride</strong></h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <!-- <input class="col-md-12 form-control" [(ngModel)]="newSearch"
+                placeholder="search by name,email, or mobile"> -->
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-xs-6">
+                  <table class="table table-striped">
+                    <thead>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Mobile</th>
+                    </thead>
+                    <tbody *ngFor="let name of newemployeeData  let i = index">
+                      <tr>
+                        <td><input type="radio" (click)="getRadio(name)" value="i"></td>
+                        <td>{{name.name}}</td>
+                        <td>{{name.email}}</td>
+                        <td>{{name.mobile}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-xs-6">
+                  <h4><strong>Ongoing Rides!!</strong></h4>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td style="width: 80px;">
+                          <img src="../../assets/photo_my.jpg" class="small-img">
+                        </td>
+                        <td style="width: 150px;margin-top: -10px;">
+                          <p>Hardik</p>
+                          <p>03 feb 2020 | 6:30</p>
+                        </td>
+                        <td></td>
+                        <td style="background-color: gainsboro;width: 300px;align-items: center;padding-left: 20px;">
+                      <tr class="row">
+                        <td>
+                          <img src="../../assets/dot.png" style="width: 20px;margin-right: 5px;">
+                        </td>
+                        <td>
+                          <p style="margin-top: 5px;">BalajiHall,Rajkot </p>
+                        </td>
+                      </tr>
+                      <div class="vl"></div>
+                      <tr class="row">
+                        <td>
+                          <img src="../../assets/dot.png" style="width: 20px;margin-right: 5px;">
+                        </td>
+                        <td>
+                          <p style="margin-top: 5px;">BalajiHall,Rajkot </p>
+                        </td>
+                      </tr>
+
+
+                      </td>
+                      </tr>
+                      <hr>
+
+                      <h4><strong>Scheduled Rides!!</strong></h4>
+                      <tr>
+                        <td style="width: 80px;">
+                          <img src="../../assets/photo_my.jpg" class="small-img">
+                        </td>
+                        <td style="width: 150px;margin-top: -10px;">
+                          <p>Hardik</p>
+                          <p>03 feb 2020 | 6:30</p>
+                        </td>
+                        <td></td>
+                        <td style="background-color: gainsboro;width: 300px;align-items: center;padding-left: 20px;">
+                      <tr class="row">
+                        <td>
+                          <img src="../../assets/dot.png" style="width: 20px;margin-right: 5px;">
+                        </td>
+                        <td>
+                          <p style="margin-top: 5px;">BalajiHall,Rajkot </p>
+                        </td>
+                      </tr>
+                      <div class="vl"></div>
+                      <tr class="row">
+                        <td>
+                          <img src="../../assets/dot.png" style="width: 20px;margin-right: 5px;">
+                        </td>
+                        <td>
+                          <p style="margin-top: 5px;">BalajiHall,Rajkot </p>
+                        </td>
+                      </tr>
+                      </td>
+                      </tr>
+                      <hr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" data-dismiss="modal" (click)="selectedDriver()">Assigns to selected driver </button>
+              <button type="button" class="btn btn-info" data-dismiss="modal" (click)="selectAnyDriver()">Assigns to any driver</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </form>
+</body>
+
+</html>

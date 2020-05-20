@@ -1,0 +1,80 @@
+input
+{
+  margin-top: 10px;
+  margin-left: 1px;
+}
+select
+{
+  margin-top: 10px;
+  margin-left: 20px;
+}
+.radio
+{
+  margin-top: 10px;
+  margin-left: 20px;
+}
+.small-btn
+{
+  margin-top: 10px;
+}
+.via
+{
+  margin-left: 15px;
+}
+.btn
+{
+  margin-top:10px;
+}
+
+.img-main
+{
+  height: 100%;
+  width: 100%;
+}
+.smaller
+{
+  height: 18px;
+}
+.small-img
+{
+  height: 100%;
+  width: 120%;
+}
+.smaill-pic
+/* {
+  height: 500%;
+  width: 50%; */
+
+
+.largeBtn
+{
+  width: 100%;
+  margin-top: 3%;
+}
+agm-map
+{
+  height: 250px;
+}
+.in {
+  width: 4px;
+}
+.group
+{
+  margin-top: 10px;
+  margin-left: 13px;
+}
+.icon
+{
+  height: 40px;
+}
+.icon1
+{
+  height: 20px;
+  margin-top: 10px;
+}
+
+.card {
+  width: 290px;
+  margin-left: 12px;
+  background-color: #E8E8E8;
+}

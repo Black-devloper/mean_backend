@@ -1,0 +1,38 @@
+<div class="container-fluid">
+  <form [formGroup]="carForm">
+    <div class="row ml-3">
+      <div class="col-md-8">
+        <div class="row col-md-12">
+          <span class="col-md-2">Type Name </span>
+          <span class="col-md-10"><input type="text" formControlName="carName" class="form-control"></span>
+        </div>
+        <span class="row col-md-12 pt-2">
+          <span class="col-md-2">Type Image</span>
+          <span class="col-md-10"><input (change)="selectImage($event)" type="file" formControlName="carImage" class="form-control"></span>
+        </span>
+      </div>
+      <div class="col-md-3">
+        <button class="mainbtn" (click)="onCancel()">Cancel</button>
+        <button class="mainbtn" type="submit" (click)="onAdd()">{{updateMode?'Update':'Submit'}}</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+    <div class="row2">
+      <div class="datagrid" *ngFor="let car of carData">
+        <div class="imgname">
+          <div class="flage">
+            <img class="flageimg" src="http://localhost:3000/carImages/{{car.carImage}}" alt="">
+          </div>
+          <div class="carname">
+            {{car.carName}} 
+          </div>
+        </div>
+        <div class="editbtn">
+          <button class="mainedit" (click)="onUpdate(car)">Edit</button>
+          <button class="mainedit" (click)="onDelete(car._id)">Delete</button>
+        </div>
+      </div>
+    </div>
+<!-- </div> -->

@@ -1,0 +1,288 @@
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div>
+      <h1>TASK-10 - Add Driver And Assign Vehicle Type </h1>
+      <br>
+    </div>
+    <form [formGroup]="f">
+      <div class="row">
+        <div class="col-md-1">
+          <input type="text" class="form-control" formControlName="lat" placeholder="lat" required>
+        </div>
+        <!-- <div class="col-md-1">
+          <input type="text" class="form-control" formControlName="city" placeholder="city" required>
+        </div> -->
+        <div class="col-md-1">
+          <input type="text" class="form-control" formControlName="lng" placeholder="lng" required>
+        </div>
+        <div class="col-md-1">
+          <select formControlName="cname" class="form-control">
+            <option *ngFor="let Country of cntName" [value]="Country.name">{{Country.name}}</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <input type="text" formControlName="name" class="form-control" placeholder="Enter Name" required>
+        </div>
+        <div class="col-md-2">
+          <input type="text" formControlName="email" class="form-control validationEmail"
+            placeholder="Enter valid email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required>
+        </div>
+        <div class="col-md-2">
+          <input type="text" formControlName="mobile" class="form-control" placeholder="Enter must 10digit mobile"
+            maxlength="10" pattern="[7-9]{1}[0-9]{9}" minlength="10" required>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-info btn-1" *ngIf="!editMode" (click)="onAddEmployee()">+</button>
+          <button class="btn btn-info btn-1" *ngIf="editMode" (click)="onUpdateEmployee()"
+            (click)="onUpdateRequest()">update</button>
+        </div>
+      </div>
+      <div>
+        <div class="container">
+          <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <label>Select the Servise type</label>
+                </div>
+                <div class="modal-body text-center">
+                  <table class="text-center">
+                    <tbody>
+                      <div class="row" *ngFor="let car of driverName">
+                        <div class="col-md-6">
+                          <tr>{{car.carName | uppercase}}</tr>
+                        </div>
+                        <div class="col-md-4" style="padding-top: 2%;">
+                          <tr><button class="btn btn-success" data-dismiss="modal"
+                              (click)="onAssignDriver(car)">Assign</button></tr>
+                        </div>
+                      </div>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <br>
+    <div class="row">
+      <!-- <div class="col-md-6">
+        <input type="text" class="form-control" [(ngModel)]="search" placeholder="Search via email,name or phonenumber">
+      </div> -->
+      <br>
+      <br>
+      <table class="table table-striped" id="empTable">
+        <thead style="background-color: aqua;">
+          <tr>
+            <th (click)="sortingName(0)"> Name</th>
+            <th (click)="sortingName(1)">Email</th>
+            <th (click)="sortingName(2)">Phone</th>
+            <th>Country</th>
+            <th>ServiceType</th>
+            <th>Status</th>
+            <th>Request</th>
+            <th>AcceptRequest</th>
+            <th>Image</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emp of this.emp  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize ">
+            <td>{{ emp.name | uppercase }}</td>
+            <td>{{ emp.email | lowercase }}</td>
+            <td>{{ emp.mobile }}</td>
+            <td>{{ emp.cname | uppercase }}</td>
+            <td>
+              {{ emp.service  | uppercase }}
+            </td>
+            <td>
+              <button class="btn btn-info" style="margin: 5px;"
+                [ngStyle]="{'background-color':emp.status === 'Decline'? 'red' : 'green'}" (click)="onStatusChange(emp)"
+                class="approvedbtn btn btn-success">{{emp.status}}</button>
+            </td>
+            <td>
+              <button class="btn btn-danger" data-toggle="modal" data-target="#my" *ngIf="emp.request != ''"
+                (click)="onUpdateRequest(emp.request,emp)">Request</button>
+            </td>
+            <td>
+              <button class="btn btn-success" *ngIf="emp.AcceptTrip != ''" data-toggle="modal" data-target="#myModalAccept"
+                (click)="onUpdateAccept(emp.AcceptTrip,emp)">Accept</button>
+            </td>
+            <td>
+              <!-- <img src="http://localhost:3000/uploads/{{emp.avtar}}" alt="avtar"> -->
+              {{emp.request}}
+            </td>
+            <td>
+              <div class="dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                  Action button
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item"><button class="btn btn-primary btn-1"
+                      (click)="Update(emp)">Update</button></a>
+                  <a class="dropdown-item"> <button class="btn btn-danger btn-1"
+                      (click)=" onDeleteEmployee(emp._id)">Delete</button></a>
+                  <a class="dropdown-item"> <button class="btn btn-info btn-1" data-toggle="modal"
+                      data-target="#myModal" (click)="updateAssign(emp)">Assign</button></a>
+                </div>
+              </div>
+            </td>
+            <div class="modal fade" id="my" role="dialog">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h3><strong>Request from User!!</strong></h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div class="modal-body" *ngFor="let item of myRequestData">
+                    <div class="col-md-12 card" style="margin-top: 20px;">
+                      <div class="row">
+                        <div class="row col-md-4"><img src="../../assets/wallet.png" class="image">
+                          <p style="margin: 3%;">{{item.price}}</p>
+                        </div>
+                        <div class="row col-md-4"><img src="../../assets/watch.svg" class="image">
+                          <p style="margin: 3%;">{{item.dtime}}</p>
+                        </div>
+                        <div class="row col-md-4"><img src="../../../assets//drop.png" class="image">
+                          <p style="margin: 3%;">{{item.maindistance}}</p>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top: 10px;">
+                        <label>Creation-date</label>
+                        <p style="margin-left: 10px;">{{item.datetime}}</p>
+                      </div>
+
+                      <h3>Location</h3>
+
+                      <div>
+                        <div class="row">
+                          <div>
+                            <img src="../../assets/dot.png" class="image" style="height: 20px;">
+                          </div>
+                          <div class="card" style="width: 80%;margin-left: 3%;height: 50%;">
+                            {{item.pickup | uppercase}}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div>
+                            <img src="../../assets/dot.png" class="image" style="height: 20px;">
+                          </div>
+                          <div class="card" style="width: 80%;margin-left: 3%;">
+                            {{item.drop | uppercase}}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div>
+                          <img src="../../../../assets/photo_my.jpg" class="imagemy" style="border-radius: 50%;">
+                        </div>
+                        <div style="margin-left: 3%;">
+                          <label>Passenger Details</label>
+                          <p>{{item.name}}</p>
+                          <p style="margin-top: -15px;">{{item.email }}</p>
+                          <p style="margin-top: -15px;">{{item.mobile }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer" >
+                    <button class="btn btn-success"  (click)="onAccept()">ACCEPT</button>
+                    <button class="btn btn-danger"  (click)="onReject(emp.request,emp)">REJECT</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="container">
+              <div class="modal fade" id="myModalAccept" role="dialog">
+                <div class="modal-dialog" *ngFor="let item of acceptData">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="col-md-12 card" style="margin-top: 20px;">
+                        <div class="row">
+                          <div class="row col-md-4"><img src="../../assets/wallet.png" class="image">
+                            <p style="margin: 3%;">{{item.price}}</p>
+                          </div>
+                          <div class="row col-md-4"><img src="../../assets/watch.svg" class="image">
+                            <p style="margin: 3%;">{{item.dtime}}</p>
+                          </div>
+                          <div class="row col-md-4"><img src="../../../assets//drop.png" class="image">
+                            <p style="margin: 3%;">{{item.maindistance}}</p>
+                          </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px;">
+                          <label>Creation-date</label>
+                          <p style="margin-left: 10px;">{{item.datetime}}</p>
+                        </div>
+
+                        <h3>Location</h3>
+
+                        <div>
+                          <div class="row">
+                            <div>
+                              <img src="../../assets/dot.png" class="image" style="height: 20px;">
+                            </div>
+                            <div class="card" style="width: 80%;margin-left: 3%;height: 50%;">
+                              {{item.pickup}}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div>
+                              <img src="../../assets/dot.png" class="image" style="height: 20px;">
+                            </div>
+                            <div class="card" style="width: 80%;margin-left: 3%;">
+                              {{item.drop}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div>
+                            <img src="../../../../assets/photo_my.jpg" class="imagemy" style="border-radius: 50%;">
+                          </div>
+                          <div style="margin-left: 3%;">
+                            <label>Passenger Details</label>
+                            <p>{{item.name}}</p>
+                            <p style="margin-top: -15px;">{{item.email}}</p>
+                            <p style="margin-top: -15px;">{{item.mobile}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+
+
+
+          </tr>
+        </tbody>
+      </table>
+      <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="emp.length"></ngb-pagination>
+    </div>
+    <br>
+    <br>
+  </div>
+</body>

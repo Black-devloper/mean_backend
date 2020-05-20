@@ -1,0 +1,203 @@
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="/jquery.datetimepicker.css" />
+  <script src="/jquery.js"></script>
+  <script src="/build/jquery.datetimepicker.full.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/ngx-bootstrap/datetimepicker/bs-datepicker.css">
+  <script src="https://checkout.stripe.com/checkout.js" defer></script>
+  <script>
+    var stripePublicKey = '<%= stripePublicKey %>'
+  </script>
+  <script src="store.js" defer></script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Task-11 Create Request</h1>
+    <form [formGroup]='f'>
+      <div class="row">
+        <div class="col-md-4">
+
+
+          <h4>Cutomer details</h4>
+          <select formControlName="servise" class="col-md-12 form-control" (change)="onSelectCountry($event)"
+            style="margin-left: 0px;">
+            <option>Select User</option>
+            <option *ngFor="let Country of userName" [value]="Country.name">{{Country.name | uppercase}}</option>
+          </select>
+          <div class="row">
+            <select class="col-md-3" style="height: 27px;">
+              <option style="height: 30px;"> +91 </option>
+            </select>
+            <input type="text" formControlName="mobile" class="col-md-8 " placeholder="Mobile Number">
+          </div>
+          <input type="text" class="col-md-12" class="form-control" formControlName="name" placeholder="Enter Name">
+          <input type="email" class="col-md-12" class="form-control" formControlName="email" placeholder="Enter Email">
+          <input type="email" class="col-md-12" class="form-control" formControlName="cname" placeholder="Enter Country">
+          <div class="row">
+            <div class="col-md-3 pull-left">
+              <label><input type="radio" formControlName="payment" value="card"> Card</label>
+            </div>
+            <div class="col-md-3">
+              <label><input type="radio" formControlName="payment" value="case"> Case</label>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-4">
+          <h4>Ride details</h4>
+          <div class="row">
+            <!-- <div class="col-md-1">
+              <img src="../../assets/pickup-point.png"
+                  class="smaller" alt="">
+            </div> -->
+            <div class="col-md-8">
+              <input type="text" style="margin-left: 20px;" class="form-control" formControlName="pickup"
+                (keydown.enter)="$event.preventDefault()" (change)="onSelectCountry($event)"
+                placeholder="Enter Pickup Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text"
+                #search>
+            </div>
+            <div (click)="onAddIngredient()" class="col-md-2 btn btn-success btn">
+              Add
+            </div>
+          </div>
+          <div formArrayName="ingredients">
+            <div class="row" *ngFor="let ingredientCtrl of f.get('ingredients')['controls']; let i = index"
+              [formGroupName]="i">
+              <div class="col-md-8  via">
+                <input type="text" formControlName="{{i}} waypoints" class="form-control" id="via{{i}}"
+                  (keypress)="searchVia(i)">
+              </div>
+              <div class="col-md-1">
+                <button class="btn btn-danger btn" (click)="onDeleteIngredient(i)">X</button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+
+            <div class="col-md-10" style="margin-left: 20px;">
+              <input type="text" formControlName="drop" class="form-control" (keydown.enter)="$event.preventDefault()"
+                placeholder="Enter Drop Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text"
+                #searchN>
+            </div>
+          </div>
+
+          <div class="col-md-11" style="margin-left: 5px;">
+              <input [owlDateTime]="dt3" formControlName="datetime" class="form-control" placeholder="Date Time"
+                [owlDateTimeTrigger]="dt3" date='toLocatlString()'>
+              <span [owlDateTimeTrigger]="dt3"></span>
+              <owl-date-time #dt3></owl-date-time>
+          </div>
+
+          <button class="btn btn-info" style="margin-left: 15px;width: 280px;margin-bottom: 10px;"
+            (click)="onGetVehicle()">Get Car</button>
+          <div *ngIf="show">
+            <div class="card new" *ngFor="let item of driverName">
+              <div class="col-md-12">
+                <div class="row">
+                  <input type="radio" name="group" class="col-md-1" formControlName="service" value={{item.carName}}  (click)=getData(item)>
+                  <img src="../../../../assets/suv.jpg" class="col-md-3" style="width: 90px;">
+                  <div style="margin-left: 20px;" class="col-md-3">
+                    <p>{{ item.carName | lowercase}}</p>
+                  </div>
+                  <p class="pull-right col-md-3" formControlName="price" >$104</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div *ngFor="let dri of vehicle"> -->
+          <!-- <div class="row col-md-11 group" style="background-color: darkgray;" *ngFor="let driver of vehicle"> -->
+          <!-- <div class="row"> -->
+          <!-- *ngIf="dri.pickup === driver.city"> -->
+          <!-- <div class="pull-left col-md-1">
+                  <input type="radio" name="group">
+                </div> -->
+          <!-- <div class="col-md-4" style="margin-top: 5px;">
+                  <img formControlName="avtar" [src]='"http://localhost:3000/uploads/"+driver.avtar' class="small-img">
+                </div> -->
+          <!-- <div class="col-md-2">
+                  <h6 formControlName="servise">{{driver.carName | uppercase}}</h6>
+                  <div class="row">
+                    <div class="col-md-1">
+                      <p> x2 </p>
+                    </div>
+                  </div>
+                </div> -->
+          <!-- <div class="col-md-1 pull-right">
+                  <p formControlName="price">$104</p>
+                </div> -->
+          <!-- </div> -->
+          <!-- </div> -->
+
+
+          <!-- </div> -->
+        </div>
+        <div class="col-md-4">
+
+          <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+            <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
+            <agm-direction [origin]="origin" [waypoints]="waypoints" [destination]="destination">
+            </agm-direction>
+          </agm-map>
+          <div class="row">
+            <div class="col-md-4 group">
+              <div class="row">
+                <div class="row">
+                  <div class="col-md-3">
+                    <a><img src="../../assets/watch.svg" class="icon"></a>
+                  </div>
+                  <div class="col-md-9">
+                    <p style="font-size: 14px;"> Estimate Time </p>
+                    <h6>{{ this.speed }} km/s</h6>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-5 group">
+              <div class="row">
+                <div class="row">
+                  <div class="col-md-3">
+                    <a><img src="../../assets/road.svg" class="icon"></a>
+                  </div>
+                  <div class="col-md-9">
+                    <p style="font-size: 14px;">Estimate Distance</p>
+                    <h6 formControlName="maindistance"> {{ maindistance }} km</h6>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+
+          <button class="btn btn-info largeBtn" (click)="onAddEmployee()" style="width: 350px;">Book a ride!!</button>
+
+          <!-- <div class="container">
+            <h1>Card Information</h1>
+            <form novalidate (ngSubmit)="buy($event)" [formGroup]="stripeTest">
+              <div class="col-lg-6">
+                <input class="form-control" type="text" formControlName="name" placeholder="Account Holder Name"><br>
+              </div>
+              <div class="col-lg-6">
+                <div id="card-element" class="field"></div>
+              </div>
+              <div class="col-lg-12">
+                <button class="btn btn-success" type="submit">
+                  BUY
+                </button>
+              </div>
+            </form>
+          </div> -->
+
+
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

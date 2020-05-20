@@ -1,0 +1,42 @@
+<html>
+
+<head></head>
+
+<body>
+  <h1>Task 6 - CREATE ZONE INSIDE COUNTRY</h1>
+  <br>
+  <div class="col-md-10">
+    <form [formGroup]="f">
+      <select formControlName="cname" (change)="onSelectCountry($event)" class="form-control">
+        <option>select Country</option>
+        <option *ngFor="let Country of cntName" [value]="Country.name">{{Country.name}}</option>
+      </select>
+    </form>
+    <br>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <agm-map [latitude]="lat" [longitude]="lng" (mapReady)="onMapReady($event)">
+         <agm-polygon *ngFor="let zone of multipleData" [fillColor]="zone.random"
+               [fillOpacity]="0.5" [paths]="zone.paths"
+               [strokeOpacity]="0.6" [strokeWeight]="2"
+               [visible]="true" [zIndex]="1"> </agm-polygon>
+        <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
+      </agm-map>
+    </div>
+    <div class="col-md-3">
+      <div class="row" *ngFor="let mzone of multipleData , let i = index">
+        <div *ngIf="cname === mzone.cname">
+          <div class="square" style="background-color: red;"></div>
+        </div>
+        <div *ngIf="cname === mzone.cname">
+          <h5>{{mzone.cname}}</h5>
+          <h5>{{mzone.zonedata[i].name}}</h5>
+        </div>
+      </div>
+      <button class="btn btn-success" (click)="onAddEmployee()">Save</button>
+    </div>
+  </div>
+</body>
+
+</html>
